@@ -11,4 +11,8 @@ def about(request):
 
 
 def pri_id(request, number_student):
-    return HttpResponse(f'<h1> ПрИ-201 </h1> <p>Студент под номером {number_student} </p>')
+    return HttpResponse(f'<h1> ПрИ-201 </h1> <p>Студент под номером {number_student}</p>')
+
+
+def categories(request, cat):
+    return HttpResponse(f'<h1> Ссылка {cat} </h1>')
