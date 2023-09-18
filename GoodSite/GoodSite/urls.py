@@ -24,5 +24,5 @@ from people.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('people.urls')),
-    path('pri/<int:number_student>/', pri_id)
+    path('pri/<str:number_student>/', pri_id)
 ]
