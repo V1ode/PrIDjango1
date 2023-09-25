@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 
 pri_info = {
@@ -12,13 +12,15 @@ pri_info = {
         '8' : ['Манешин Антон Сергеевич', '22-2.040'],
         '9' : ['Петрачков Александр Викторович', '22-2.041'],
         '10' : ['Сафонов Глеб Александрович', '22-2.045'],
-        '11' : ['Терешин Роман Павлович', '22-2.042'],
+        '11' : ['Терешин Роман Павлович 🎶(❁´◡`❁)', '22-2.042'],
         '12' : ['Чертков Федор Андреевич', '22-2.043'],
     }
 
 # Create your views here.
 def index(request):
-    return HttpResponse('Страница приложения для Людей')
+    out = dict(request.GET)
+    out = out.values()
+    return HttpResponse(f"Страница для Людей")
 
 
 def about(request):
@@ -51,3 +53,7 @@ def pri_id(request, number_student):
 
 def categories(request, cat):
     return HttpResponse('<h1> Ошибка </h1> <h3> Такого студента не существует </h3>')
+
+
+def page_not_found(request, exception):
+    return HttpResponseNotFound('<h1> Страница не найдена. Проверьте адрес!!! </h1>')
