@@ -1,5 +1,27 @@
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import render
+
+class data_handler:
+    def __init__(self, year):
+        self.year = year
+        self.dates = {
+            2015: 'Было хорошо',
+            2016: 'Я уже не помню',
+            2017: 'Я уже не помню',
+            2018: 'Было неплохо',
+            2019: 'Было хорошо',
+            2020: 'Было чудесно',
+            2021: 'Домашний арест',
+            2022: 'Танцы с красоткой',
+            2023: 'Есть',
+            2024: 'Возможно, будет хорошо',
+            2025: 'Будет хорошо'
+        }
+
+
+    def return_date_info(self):
+        return self.dates[self.year]
+
 
 pri_info = {
         '1' : ['Абрамов Александр Альбертович', '22-2.034'],
@@ -33,12 +55,10 @@ def pri_group(request):
         out += number + '.'
         out += mas_of_info[0]
         out += '</p>'
-
     return HttpResponse(out)
 
 
 def pri_id(request, number_student):
-
     if str(number_student) in pri_info:
         out = '<h1> ПрИ-201 </h1> <p>'
         mas_of_info = pri_info[str(number_student)]
@@ -55,5 +75,22 @@ def categories(request, cat):
     return HttpResponse('<h1> Ошибка </h1> <h3> Такого студента не существует </h3>')
 
 
+def server_down(exception):
+    return HttpResponseServerError('<h1> Сервер себя плохо чувствует. Страница недоступна <h1>')
+
+
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1> Страница не найдена. Проверьте адрес!!! </h1>')
+
+
+def forbidden(request, exception):
+    return HttpResponseForbidden('<h1> Доступ ЗАПРЕЩЕН <h1>')
+
+
+def bad_request(request, exception):
+    return HttpResponseBadRequest('<h1> Мы не поняли ваш запрос <h1>')
+
+
+def date_handler(request, year):
+    out = data_handler(year)
+    return HttpResponse(out.return_date_info())
