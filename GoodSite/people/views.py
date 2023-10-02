@@ -1,8 +1,10 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 class data_handler:
     def __init__(self, year):
+        #raise PermissionDenied()
         self.year = year
         self.dates = {
             2015: 'Было хорошо',
@@ -46,6 +48,7 @@ def index(request):
 
 
 def about(request):
+    # return redirect('spisok_pri', '12')
     return HttpResponse('<h1> БГИТУ </h1>')
 
 
@@ -59,6 +62,8 @@ def pri_group(request):
 
 
 def pri_id(request, number_student):
+    # if number_student > 30:
+    #     return redirect('/', permanent=True)
     if str(number_student) in pri_info:
         out = '<h1> ПрИ-201 </h1> <p>'
         mas_of_info = pri_info[str(number_student)]

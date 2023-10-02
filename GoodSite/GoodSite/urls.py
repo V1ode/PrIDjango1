@@ -25,7 +25,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('people.urls')),
 ]
-handler404 = page_not_found
+
 handler500 = server_down
+
+handler404 = page_not_found
+
 handler403 = forbidden
+
 handler400 = bad_request
+
+handler302 = redirect
