@@ -48,7 +48,6 @@ def index(request):
 
 
 def about(request):
-    # return redirect('spisok_pri', '12')
     return HttpResponse('<h1> БГИТУ </h1>')
 
 
@@ -74,6 +73,14 @@ def pri_id(request, number_student):
     else:
         out = '<h1> Ошибка </h1> <h3> Такого студента не существует </h3>'
         return HttpResponse(out)
+
+
+def redirect_to_home(request):
+    return redirect(index)
+
+
+def redirect_to_Eugen(request):
+    return redirect('spisok_pri', '5')
 
 
 def categories(request, cat):
