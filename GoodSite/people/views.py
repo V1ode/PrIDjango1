@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import render, redirect
+import re
 
 class data_handler:
     def __init__(self, year):
@@ -75,12 +76,28 @@ def pri_id(request, number_student):
         return HttpResponse(out)
 
 
+def post_detail(request):
+    if request.GET:
+        info = dict(request.GET)
+        out = ""
+        for i, j in info.items():
+            out += i
+            out += "="
+            out += j[0]
+            out += " | "
+        out = out[:-2]
+        return HttpResponse(f'<h1>{out}</h1>')
+    else:
+        return HttpResponse(f'<h1>Get is empty</h1>')
+
+
 def redirect_to_home(request):
     return redirect(index)
 
 
-def redirect_to_Eugen(request):
-    return redirect('spisok_pri', '5')
+def redirect_to_Eugen(request, name):
+    if re.fullmatch(r'[Ee]ugen', name):
+        return redirect('spisok_pri', '5')
 
 
 def categories(request, cat):
