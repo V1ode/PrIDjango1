@@ -75,15 +75,28 @@ pri_info = {
         '12' : ['Чертков Федор Андреевич', '22-2.043'],
     }
 
+menu = ['Коротко', 'ВУЦ', 'Главная']
+
+data_db = [
+    {'id':1, 'title':'Михаил Валерьевич', 'content': 'Биография преподвавателя', 'is_public':True},
+    {'id':2, 'title':'Олег Дмитриевич', 'content': 'Биография Заведующего кафедры', 'is_public':True},
+    {'id':3, 'title':'Роман Павлович', 'content': 'Биография студентика', 'is_public':False},
+]
+
 # Create your views here.
 def index(request):
-    out = dict(request.GET)
-    out = out.values()
-    return HttpResponse(f"Страница для Людей")
+    # out = dict(request.GET)
+    # out = out.values()
+    data = {'title': 'Главная страница"',
+            'menu': menu,
+            'float': 3.14,
+            'posts': data_db}
+
+    return render(request, 'people/index.html', context=data) # or context=data or data
 
 
 def about(request):
-    return HttpResponse('<h1> БГИТУ </h1>')
+    return render(request, 'people/about.html')
 
 
 def pri_group(request):

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="font-size:18px;">
+    <h1>{{title|upper}}</h1>
+<!--<p>Страница для <span style="color:orange;font-size:27px;">Людей</span>-->
+    <br>
+    {{menu}}
+    <br>
+    {{float|add:4}}
+
+    <br>
+    {{integer}}
+    <ul>
+        {% for p in posts %}
+            <li>
+                <h2>{{ p.title }}</h2>
+                <p>{{ p.content }}</p>
+            </li>
+            {% if not forloop.last %}
+                <hr style="">
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
