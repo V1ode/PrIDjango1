@@ -26,6 +26,7 @@ class data_handler:
 
 class DataBase:
     __instance = None
+    __connect = None
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -34,12 +35,14 @@ class DataBase:
 
     def __del__(self):
         self.__instance = None
+        self.__connect = None
 
     def __init__(self, user, psw, port):
-        self.user = user
-        self.psw = psw
-        self.port = port
-        self.data = "DATA"
+        if self.__connect is None:
+            self.user = user
+            self.psw = psw
+            self.port = port
+            self.data = "DATA"
 
     def connect(self):
         print(f"Соединение с Базой данных:{self.user}, "
