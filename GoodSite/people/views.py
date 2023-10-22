@@ -1,7 +1,7 @@
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import render, redirect
 import re
+
 
 class data_handler:
     def __init__(self, year):
@@ -58,6 +58,40 @@ class DataBase:
         print(f"Запись в Базу данных {self.data}")
 
 
+def split_line(line, sep):
+    parse_line = line
+    list = []
+    i = 0
+    last_i = 0
+    no_sep = True
+
+    if line == len(line)*' ':
+        list.append('')
+    else:
+        while(i < len(line)):
+            if parse_line[i] == "\"":
+                list.append(parse_line[i+1:parse_line.find("\"")])
+                if parse_line.find("\"") == len(line)-1:
+                    break
+                else:
+                    i = parse_line.find("\"") + 1
+            if parse_line[i] == sep:
+                if i == len(line)-1:
+                    list.append(parse_line[:i])
+                    list.append("\"")
+                    break
+                elif parse_line[i+1] == sep:
+                    list.append(parse_line[:i])
+                    list.append("\"")
+                    i = i+1
+                else:
+                    list.append(parse_line[:i])
+                    i = i + 1
+                no_sep = False
+        i += 1
+    if no_sep:
+        list.append(line)
+    return list
 
 
 pri_info = {
@@ -75,15 +109,51 @@ pri_info = {
         '12' : ['Чертков Федор Андреевич', '22-2.043'],
     }
 
+
+dict_w_object_types = {
+    'int' : '1',
+    'float' : 1.1,
+    'str' : 'some_string',
+    'list' : [1, 2, 3],
+    'dict' : {'key' : 'value'},
+    'tuple' : [4, 5, 6],
+    'set' : {'seven', 'eight'},
+    'bool' : True,
+}
+
 # Create your views here.
 def index(request):
-    out = dict(request.GET)
-    out = out.values()
-    return HttpResponse(f"Страница для Людей")
+    return render(request, 'people/index.html')
+
+def object_types(request):
+     return render(request, 'people/object_types.html', context=dict_w_object_types)
 
 
 def about(request):
     return HttpResponse('<h1> БГИТУ </h1>')
+
+
+def test_split_line(request, line, sep):
+    list = split_line(line, sep=sep)
+
+    empty = ''
+    first_out = ''
+    second_out = ''
+
+    if list[0] == '':
+        empty = "Строка пуста"
+    else:
+        first_out = f'Результаты работы функции split_line по строке {line} с разделителем "{sep}" :'
+        for item in list:
+            second_out += item
+            second_out += '\t'
+
+    result = {}
+    result['empty'] = empty
+    result['first_str'] = first_out
+    result['second_str'] = second_out
+    result['list'] = list[0]
+    return render(request, 'people/Split_line Tester.html', context=result)
 
 
 def pri_group(request):

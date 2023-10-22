@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title> Main Page </title>
+</head>
+<body>
+    <h1> Страница для Людей </h1> <br><br>
+    <h5> {% for i in "Сделал Терешин Роман Павлович" %}
+        {% if forloop.revcounter > 8 %}
+            {{ i }}
+        {% endif %}
+    {% endfor %}
+    </h5>
+</body>
+</html>
