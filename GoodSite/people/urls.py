@@ -3,7 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='home'),
+    path('object_types/', object_types, name='object_types'),
     path('about/', about, name='about'),
+    path('test_split_line/<str:line>/<str:sep>/', test_split_line, name='Split_line Tester'),
     path('pri/', pri_group),
     path('pri/<int:number_student>/', pri_id, name='spisok_pri'),
     path('pri/<slug:cat>/', categories, name='categories'),
