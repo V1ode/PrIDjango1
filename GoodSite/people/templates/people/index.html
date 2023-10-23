@@ -2,41 +2,31 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
+
     <title>Title</title>
 </head>
 <body style="font-size:18px;">
-    <h1>{{title|upper}}</h1>
-<!--<p>Страница для <span style="color:orange;font-size:27px;">Людей</span>-->
-    <br>
-    {{menu}}
-    <br>
-    {{float|add:4}}
+<p>Страница для <span style="color:orange;font-size:27px;">Людей</span> <br>
+    <p><a href="{% url 'about' %}"> БГИТУ </a></p>
 
-    <br>
-    {{integer}}
-    <ul>
-        {% for p in posts %}
-            <li>
-                <h2>{{ p.title }}</h2>
-                <p>{{ p.content }}</p>
-            </li>
-            {% if not forloop.last %}
-                <hr style="">
-            {% endif %}
-        {% endfor %}
-    </ul>
-=======
-    <title> Main Page </title>
-</head>
-<body>
-    <h1> Страница для Людей </h1> <br><br>
-    <h5> {% for i in "Сделал Терешин Роман Павлович" %}
-        {% if forloop.revcounter > 8 %}
-            {{ i }}
-        {% endif %}
-    {% endfor %}
-    </h5>
->>>>>>> origin/master
+
+<!--    <br>-->
+<!--    {{menu}}-->
+<!--    <br>-->
+<!--    {{float|add:4}}-->
+
+<!--    <br>-->
+<!--    {{integer}}-->
+<!--    <ul>-->
+<!--        {% for p in posts %}-->
+<!--            <li>-->
+<!--                <h2>{{ p.title }}</h2>-->
+<!--                <p>{{ p.content }}</p>-->
+<!--            </li>-->
+<!--            {% if not forloop.last %}-->
+<!--                <hr style="">-->
+<!--            {% endif %}-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
 </body>
 </html>
