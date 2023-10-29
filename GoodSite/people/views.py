@@ -27,6 +27,7 @@ class data_handler:
 class DataBase:
     __instance = None
     __connect = None
+    test_object = 'Я Объект'
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -80,6 +81,56 @@ pri_info = {
     }
 
 
+def split_line(line, sep):
+    list = []
+    i = 0
+    prev_i = 0
+    prev_sep = False
+    prev_bracket = False
+    empty_item = False
+
+    if line == len(line)*' ':
+        list.append('')
+    else:
+        while(i < len(line)):
+            if line[i] == "\"":
+                list.append(line[i+1:line.find("\"", i+1)])
+                i = line.find("\"", i+1)
+                prev_bracket = True
+                if i == len(line)-1:
+                    break
+                prev_i = i
+            if line[i] == sep:
+                if prev_sep or empty_item:
+                    list.append("\'\'")
+                    prev_i = i + 1
+                elif prev_bracket:
+                    prev_i = i + 1
+                    prev_bracket = False
+                else:
+                    list.append(line[prev_i:i])
+                    if i != len(line) - 1:
+                        prev_i = i+1
+                if i == 0:
+                    list.append("\'\'")
+                    prev_i = i + 1
+                if i == len(line) - 1:
+                    list.append("\'\'")
+                    break
+                prev_sep = True
+            elif i == len(line)-1:
+                list.append(line[prev_i:])
+                break
+            else:
+                if line[i] == ' ':
+                    empty_item = True
+                elif empty_item:
+                    empty_item = False
+                prev_sep = False
+            i += 1
+    return list
+
+
 dict_w_object_types = {
     'int' : '1',
     'float' : 1.1,
@@ -89,48 +140,17 @@ dict_w_object_types = {
     'tuple' : [4, 5, 6],
     'set' : {'seven', 'eight'},
     'bool' : True,
+    'func': split_line('1', '2'),
+    'object': DataBase.test_object,
+    'empty': [],
+    'test_in': 'Kadabra',
+    'regroup': [
+        {"name": "Monster", "views": "428,793,586", "band": "Skillet band"},
+        {"name": "Resistance", "views": "21,276,007", "band": "Skillet band"},
+        {"name": "The Vengeful One", "views": "130,137,718", "band": "Disturbed band"},
+        {"name": "What Are You Waiting For", "views": "17,378,578", "band": "Disturbed band"},
+    ]
 }
-
-
-def split_line(line, sep):
-    parse_line = line
-    list = []
-    i = 0
-    prev_i = 0
-    no_sep = True
-
-    if line == len(line)*' ':
-        list.append('')
-    else:
-        while(i < len(line)):
-            if parse_line[i] == "\"":
-                list.append(parse_line[i+1:parse_line.find("\"")])
-                if parse_line.find("\"") == len(line)-1:
-                    break
-                else:
-                    i = parse_line.find("\"") + 1
-            elif parse_line[i] == sep:
-                if i == len(line)-1:
-                    list.append(parse_line[prev_i:i])
-                    break
-                elif parse_line[i+1] == sep or parse_line.find(sep) != -1 \
-                        and parse_line[i+1:parse_line.find(sep)] == (parse_line.find(sep) - i+1)*' ' \
-                        or parse_line[i+1:] == (parse_line.find(sep) - i+1)*' ':
-                    list.append("\"\"")
-                    prev_i = i
-                    i += 1
-                else:
-                    list.append(parse_line[prev_i:i])
-                    prev_i = i+1
-                    i += 1
-                no_sep = False
-            elif i == len(line)-1:
-                list.append(parse_line[prev_i:i])
-                break
-            i += 1
-    if no_sep == 1:
-        list.append(line)
-    return list
 
 
 # Create your views here.
@@ -155,10 +175,13 @@ def test_split_line(request, line, sep):
     first_out = ''
     second_out = ''
 
-    if list[0] == '':
+    if list[0] == '' and line[0] != sep:
         empty = "Строка пуста"
     else:
-        first_out = f'Результаты работы функции split_line по строке "{line}" с разделителем "{sep}" :'
+        if line.find("\"") != -1:
+            first_out =  f'Результаты работы функции split_line по строке [{line}] с разделителем "{sep}" :'
+        else:
+            first_out = f'Результаты работы функции split_line по строке "{line}" с разделителем "{sep}" :'
         for item in list:
             second_out += item
             second_out += '\t'
@@ -171,24 +194,20 @@ def test_split_line(request, line, sep):
 
 
 def pri_group(request):
-    out = '<h1> ПрИ-201 </h1> <p>'
-    for number, mas_of_info in pri_info.items():
-        out += number + '.'
-        out += mas_of_info[0]
-        out += '</p>'
-    return HttpResponse(out)
+    info_dict = {}
+    info_dict['dict'] = pri_info
+    return render(request, 'people/pri_group.html', context=info_dict)
 
 
 def pri_id(request, number_student):
     # if number_student > 30:
     #     return redirect('/', permanent=True)
     if str(number_student) in pri_info:
-        out = '<h1> ПрИ-201 </h1> <p>'
-        mas_of_info = pri_info[str(number_student)]
-        for info in mas_of_info:
-            out += info + ' '
-        out += '</p>'
-        return HttpResponse(out)
+        dict = {}
+        dict[str(number_student)] = pri_info[str(number_student)]
+        info_dict = {}
+        info_dict['dict'] = dict
+        return render(request, 'people/pri_id.html', context=info_dict)
     else:
         out = '<h1> Ошибка </h1> <h3> Такого студента не существует </h3>'
         return HttpResponse(out)
@@ -207,6 +226,10 @@ def post_detail(request):
         return HttpResponse(f'<h1>{out}</h1>')
     else:
         return HttpResponse(f'<h1>Get is empty</h1>')
+
+
+def show_filters(request):
+    return render(request, 'people/filters.html', context=dict_w_object_types)
 
 
 def redirect_to_home(request):

@@ -2,9 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title> Object_types </title>
+    <title> Все типы данных </title>
 </head>
-<body>
+<body style="font-size:18px;">
+    <p style="text-align: center"> <a href="{% url 'home' %}"> Главная</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <a href="{% url 'about' %}"> О нас</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <a href="{% url 'pri_group' %}"> Группа ПрИ-201</a></p> <br><br><br>
+
     <p>
         int : {{ int }} <br><br>
         float : {{ float }} <br><br>
@@ -21,7 +25,9 @@
         set : {% for item in set %}
             {{ item }}
         {% endfor %}<br><br>
-        bool : {{ bool }} <br><br>
+        bool : {{ bool }}<br><br>
+        function : {{ func }}<br><br>
+        object : {{ object }}<br><br>
     </p>
 </body>
 </html>

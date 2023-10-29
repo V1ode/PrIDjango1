@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>О нас</title>
+    <title>Title</title>
 </head>
 <body style="font-size:18px;">
     <p style="text-align: center"> <a href="{% url 'home' %}"> Главная</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'about' %}"> О нас</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     <a href="{% url 'pri_group' %}"> Группа ПрИ-201</a></p> <br><br><br>
 
-    <h1 style="text-align:center;"> БГИТУ </h1>
-<p> Хороший институт </p>
+    <h1> ПрИ-201 </h1>
+    <p>
+        {% for number, info_list in dict.items %}
+            {% for item in info_list %}
+                {{ item }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            {% endfor %}
+        {% endfor %}
+    </p>
+
 </body>
 </html>
