@@ -59,10 +59,10 @@ class DataBase:
         print(f"Запись в Базу данных {self.data}")
 
 
-menu = [ {
-    'title': 'О сайте',
-    'url_name': 'about',
-}]
+menu1 = [
+    {'title': 'Главная', 'url_name': 'home',},
+    {'title': 'О сайте', 'url_name': 'about',}
+]
 
 
 pri_info = {
@@ -165,7 +165,7 @@ def object_types(request):
 
 
 def about(request):
-    return render(request, 'people/about.html')
+    return render(request, 'people/about.html', {'title': 'О программе', 'menu': menu1})
 
 
 def test_split_line(request, line, sep):
