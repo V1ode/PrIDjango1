@@ -155,8 +155,6 @@ dict_w_object_types = {
 
 # Create your views here.
 def index(request):
-    out = dict(request.GET)
-    out = out.values()
     return render(request, 'people/index.html')
 
 
