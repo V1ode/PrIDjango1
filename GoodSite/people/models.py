@@ -10,3 +10,4 @@ class Students(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_public = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=255, blank=True, db_index=True)

@@ -1,7 +1,10 @@
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import re
+
+from people.models import Students
+
 
 class data_handler:
     def __init__(self, year):
@@ -164,6 +167,17 @@ def object_types(request):
 
 def about(request):
     return render(request, 'people/about.html', {'title': 'О программе', 'menu': menu1})
+
+
+def student(request, student_slug):
+    post = get_object_or_404(Students, slug=student_slug)
+
+    data = {'title': 'Студент группы ПрИ',
+            'menu': menu1,
+            'post': post,
+            }
+
+    return render(request, 'people/student.html')
 
 
 def test_split_line(request, line, sep):
